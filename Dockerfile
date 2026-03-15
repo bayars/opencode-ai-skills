@@ -1,9 +1,9 @@
-FROM oven/bun:latest AS base
+FROM debian:bookworm-slim
 
 LABEL maintainer="agentic-skills"
 LABEL description="OpenCode Serve — Agentic Skills Platform with OpenAPI Agent and Nokia NetOps skills"
 
-# Install system dependencies
+# Install system dependencies + Bun (required by OpenCode)
 RUN apt-get update && apt-get install -y \
     curl \
     jq \
@@ -11,7 +11,13 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     python3-venv \
     git \
+    unzip \
+    ca-certificates \
     && rm -rf /var/lib/apt/lists/*
+
+# Install Bun
+RUN curl -fsSL https://bun.sh/install | bash
+ENV PATH="/root/.bun/bin:$PATH"
 
 # Install OpenCode
 RUN curl -fsSL https://opencode.ai/install | bash \
