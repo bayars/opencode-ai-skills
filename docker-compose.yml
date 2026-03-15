@@ -17,8 +17,11 @@ services:
     container_name: skills-opencode
     ports:
       - "4096:4096"
+    extra_hosts:
+      - "ollama-host:10.0.0.224"
     environment:
-      # Set your LLM provider key
+      # Ollama is hosted externally at 10.0.0.224:11434
+      # API keys only needed if using cloud providers alongside Ollama
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       # Optional: protect the serve API

@@ -3,10 +3,25 @@
   "instructions": [
     "AGENTS.md"
   ],
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://10.0.0.224:11434/v1"
+      },
+      "models": {
+        "qwen2.5-coder:32b": { "name": "Qwen 2.5 Coder 32B" },
+        "llama3.1:70b": { "name": "Llama 3.1 70B" },
+        "deepseek-coder-v2:latest": { "name": "DeepSeek Coder V2" }
+      }
+    }
+  },
   "agent": {
     "api-agent": {
       "description": "Interacts with external applications via their OpenAPI specs",
       "mode": "subagent",
+      "model": "ollama/qwen2.5-coder:32b",
       "tools": {
         "write": false,
         "edit": false
@@ -15,6 +30,7 @@
     "nokia-netops-agent": {
       "description": "Generates Nokia SR Linux and SR OS configs and Containerlab topologies from a ChromaDB knowledge base",
       "mode": "subagent",
+      "model": "ollama/qwen2.5-coder:32b",
       "tools": {
         "write": true,
         "edit": true,
