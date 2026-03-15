@@ -19,9 +19,9 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:$PATH"
 
-# Install OpenCode
-RUN curl -fsSL https://opencode.ai/install | bash \
-    && mv /root/.local/bin/opencode /usr/local/bin/opencode || true
+# Install OpenCode (installs to ~/.opencode/bin/)
+RUN curl -fsSL https://opencode.ai/install | bash
+ENV PATH="/root/.opencode/bin:$PATH"
 
 # Set working directory
 WORKDIR /app
