@@ -146,7 +146,9 @@
   <pre><code class="language-text" data-trim>
 poc/skills/
 ├── AGENTS.md                              # Project rules
-├── opencode.json                          # Config + agent registry
+├── opencode.json                          # Config + agent registry + Ollama
+├── Dockerfile                             # OpenCode serve container
+├── docker-compose.yml                     # Full stack deployment
 │
 ├── .opencode/
 │   ├── agents/
@@ -159,8 +161,7 @@ poc/skills/
 │       │       ├── TEMPLATE.md
 │       │       └── petstore/RULES.md      # Petstore rules
 │       └── nokia-netops/
-│           ├── SKILL.md                   # Nokia config skill
-│           └── sources/                   # Extra doc files
+│           └── SKILL.md                   # Nokia config skill
 │
 ├── ingest/
 │   ├── ingest.py                          # Doc → ChromaDB pipeline
@@ -172,8 +173,11 @@ poc/skills/
 │   ├── query-kb.py                        # Query ChromaDB
 │   └── n8n-webhook-example.json           # n8n workflow
 │
-├── data/chromadb/                         # Vector DB (generated)
-└── demo/index.html                        # This presentation
+├── specs/opencode-api.json                # OpenCode API spec (86 endpoints)
+├── demo/
+│   ├── index.html                         # This presentation
+│   └── Dockerfile                         # Nginx presentation container
+└── data/chromadb/                         # Vector DB (generated)
   </code></pre>
 </section>
 
@@ -688,23 +692,151 @@ curl -X POST https://your-n8n.com/webhook/agent-task \
   </div>
 </section>
 
+<!-- ═══════════ OLLAMA INTEGRATION ═══════════ -->
+<section>
+  <section>
+    <h2>Ollama Integration</h2>
+    <p style="font-size:0.7em; color:#8b949e;">Self-hosted LLM at <code>10.0.0.224:11434</code> — no cloud API keys needed</p>
+    <pre><code class="language-json" data-trim>
+{
+  "provider": {
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama",
+      "options": {
+        "baseURL": "http://10.0.0.224:11434/v1"
+      },
+      "models": {
+        "qwen2.5-coder:14b": { "name": "Qwen 2.5 Coder 14B" },
+        "qwen3.5:9b":        { "name": "Qwen 3.5 9B" },
+        "qwen3:8b":          { "name": "Qwen 3 8B" },
+        "llama3.1:8b":       { "name": "Llama 3.1 8B" }
+      }
+    }
+  }
+}
+    </code></pre>
+  </section>
+  <section>
+    <h3>Available Models</h3>
+    <table>
+      <thead><tr><th>Model</th><th>Size</th><th>Best For</th></tr></thead>
+      <tbody>
+        <tr><td><code>qwen2.5-coder:14b</code></td><td>9 GB</td><td>Config generation (default)</td></tr>
+        <tr><td><code>qwen3.5:9b</code></td><td>6.6 GB</td><td>General + reasoning</td></tr>
+        <tr><td><code>qwen3:8b</code></td><td>5.2 GB</td><td>Fast general tasks</td></tr>
+        <tr><td><code>qwen3-vl:8b</code></td><td>6.1 GB</td><td>Vision + topology diagrams</td></tr>
+        <tr><td><code>qwen3-vl:4b</code></td><td>3.3 GB</td><td>Lightweight vision</td></tr>
+        <tr><td><code>qwen-8b-32k:latest</code></td><td>5.2 GB</td><td>Large context (32K)</td></tr>
+        <tr><td><code>llama3.1:8b</code></td><td>4.9 GB</td><td>General purpose</td></tr>
+      </tbody>
+    </table>
+    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
+      Both agents default to <code>ollama/qwen2.5-coder:14b</code> — best for CLI syntax generation
+    </p>
+  </section>
+</section>
+
+<!-- ═══════════ DOCKER DEPLOYMENT ═══════════ -->
+<section>
+  <section>
+    <h2>Docker Deployment</h2>
+    <pre><code class="language-yaml" data-trim>
+# docker-compose.yml
+services:
+  demo:                          # Presentation
+    build: ./demo
+    ports: ["8082:80"]
+
+  opencode:                      # Agent API
+    build: .
+    ports: ["4096:4096"]
+    extra_hosts:
+      - "ollama-host:10.0.0.224" # Ollama server
+    volumes:
+      - chromadb-data:/app/data/chromadb
+      - ./output:/app/output
+    </code></pre>
+    <pre class="fragment"><code class="language-bash" data-trim>
+# Start everything
+docker compose up -d
+
+# Presentation → http://localhost:8082
+# Agent API    → http://localhost:4096
+# Ollama       → http://10.0.0.224:11434 (external)
+    </code></pre>
+  </section>
+  <section>
+    <h3>Infrastructure</h3>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+┌──────────────────────────────────────────────────┐
+│                 Docker Host                       │
+│                                                   │
+│  ┌─────────────┐     ┌──────────────────────┐    │
+│  │ skills-demo │     │  skills-opencode     │    │
+│  │  (nginx)    │     │  (opencode serve)    │    │
+│  │  :8082      │     │  :4096               │    │
+│  └─────────────┘     └──────────┬───────────┘    │
+│                                  │                │
+└──────────────────────────────────┼────────────────┘
+                                   │ HTTP
+                                   ▼
+                        ┌──────────────────┐
+                        │  10.0.0.224      │
+                        │  Ollama          │
+                        │  :11434          │
+                        │                  │
+                        │ qwen2.5-coder:14b│
+                        │ qwen3.5:9b       │
+                        │ llama3.1:8b      │
+                        └──────────────────┘
+</pre>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════ CONNECT FROM SHELL ═══════════ -->
+<section>
+  <h2>Connect from Your Shell</h2>
+  <p style="font-size:0.7em; color:#8b949e;">Use your local opencode CLI with the running server</p>
+  <pre><code class="language-bash" data-trim>
+# Full TUI — reuses server's skills, agents, ChromaDB
+opencode --attach http://localhost:4096
+
+# One-off command
+opencode run --attach http://localhost:4096 \
+  "Configure 3 SROS routers with eBGP"
+
+# Or symlink skills globally (no server needed)
+ln -s ~/poc/skills/.opencode/skills/* ~/.config/opencode/skills/
+ln -s ~/poc/skills/.opencode/agents/* ~/.config/opencode/agents/
+  </code></pre>
+  <div class="highlight-box fragment" style="font-size:0.65em;">
+    <code>--attach</code> is the cleanest — your shell talks to the container,<br>
+    which already has skills, ChromaDB, and Ollama configured. No duplication.
+  </div>
+</section>
+
 <!-- ═══════════ DEMO COMMANDS ═══════════ -->
 <section>
   <h2>Demo</h2>
   <div class="small-code">
   <pre><code class="language-bash" data-trim>
-# Step 1: Ingest Nokia docs into ChromaDB
-pip install -r ingest/requirements.txt
-python3 ingest/ingest.py
+# Step 1: Start the stack
+docker compose up -d
 
-# Step 2: Start OpenCode server
-opencode serve --port 4096
+# Step 2: Ingest Nokia docs into ChromaDB
+docker exec skills-opencode python3 ingest/ingest.py
 
 # Step 3: Generate configs via CLI
 ./scripts/call-agent.sh nokia-netops-agent \
   "Configure 5 SROS routers with eBGP full mesh, generate containerlab topology"
 
-# Step 4: Deploy the lab
+# Step 4: Or connect your local shell
+opencode --attach http://localhost:4096
+
+# Step 5: Deploy the lab
 cd output/
 sudo containerlab deploy -t topology.clab.yml
   </code></pre>
@@ -758,8 +890,10 @@ python3 ingest/ingest.py
         <li>SR Linux + SR OS config templates</li>
         <li>Containerlab topology generation</li>
         <li>HTTP serve integration</li>
-        <li>n8n workflow template</li>
-        <li>CLI caller + KB query scripts</li>
+        <li>Ollama integration (10.0.0.224)</li>
+        <li>Docker compose deployment</li>
+        <li>OpenCode API spec (86 endpoints)</li>
+        <li>n8n workflow + CLI scripts</li>
       </ul>
     </div>
     <div class="highlight-box">
@@ -771,7 +905,6 @@ python3 ingest/ingest.py
         <li>More protocols (OSPF, IS-IS, MPLS, EVPN)</li>
         <li>Topology visualization</li>
         <li>MCP server for device state queries</li>
-        <li>Docker compose full stack</li>
         <li>CI/CD: auto-ingest on doc updates</li>
       </ul>
     </div>
