@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agentic Skills Platform — OpenCode + Nokia NetOps</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+  <style>
+    :root {
+      --r-background-color: #0d1117;
+      --r-main-color: #c9d1d9;
+      --r-heading-color: #58a6ff;
+      --r-link-color: #58a6ff;
+    }
+    .reveal { font-size: 32px; }
+    .reveal h1 { font-size: 2.2em; color: #58a6ff; }
+    .reveal h2 { font-size: 1.6em; color: #58a6ff; }
+    .reveal h3 { font-size: 1.2em; color: #79c0ff; }
+    .reveal pre { width: 95%; font-size: 0.52em; }
+    .reveal pre code { max-height: 520px; padding: 16px; }
+    .reveal .small-code pre { font-size: 0.46em; }
+    .reveal .highlight-box {
+      background: rgba(56,139,253,0.12);
+      border: 1px solid rgba(56,139,253,0.4);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px 0;
+    }
+    .reveal .layer-stack {
+      display: flex; flex-direction: column; gap: 6px;
+      margin: 20px auto; max-width: 720px;
+    }
+    .reveal .layer {
+      border-radius: 8px; padding: 14px 20px;
+      text-align: left; font-size: 0.7em;
+    }
+    .layer-a2a   { background: rgba(187,128,255,0.2); border: 1px solid rgba(187,128,255,0.5); }
+    .layer-serve { background: rgba(56,139,253,0.2);  border: 1px solid rgba(56,139,253,0.5); }
+    .layer-mcp   { background: rgba(255,166,87,0.2);  border: 1px solid rgba(255,166,87,0.5); }
+    .layer-skills{ background: rgba(63,185,80,0.2);   border: 1px solid rgba(63,185,80,0.5); }
+    .layer-data  { background: rgba(255,85,85,0.2);   border: 1px solid rgba(255,85,85,0.5); }
+    .tag {
+      display: inline-block; padding: 2px 10px; border-radius: 12px;
+      font-size: 0.6em; font-weight: bold; margin-right: 6px; vertical-align: middle;
+    }
+    .tag-a2a   { background: rgba(187,128,255,0.3); color: #d2a8ff; }
+    .tag-mcp   { background: rgba(255,166,87,0.3);  color: #ffa657; }
+    .tag-skill { background: rgba(63,185,80,0.3);   color: #3fb950; }
+    .tag-serve { background: rgba(56,139,253,0.3);  color: #58a6ff; }
+    .tag-data  { background: rgba(255,85,85,0.3);   color: #ff5555; }
+    .tag-nokia { background: rgba(18,77,120,0.5);   color: #48b0f7; }
+    .reveal table { font-size: 0.65em; margin: 0 auto; }
+    .reveal table th { color: #58a6ff; border-bottom: 2px solid #30363d; }
+    .reveal table td { border-bottom: 1px solid #21262d; }
+    .reveal .flow-diagram {
+      font-family: monospace; font-size: 0.52em; line-height: 1.4;
+      text-align: left; background: rgba(22,27,34,0.8); padding: 20px;
+      border-radius: 8px; border: 1px solid #30363d;
+    }
+    .reveal ul { font-size: 0.85em; }
+    .reveal li { margin-bottom: 8px; }
+    .two-col { display: flex; gap: 20px; justify-content: center; }
+    .two-col > div { flex: 1; max-width: 360px; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══════════ TITLE ═══════════ -->
+<section>
+  <h1>Agentic Skills Platform</h1>
+  <h3>OpenCode + Nokia NetOps + ChromaDB</h3>
+  <p style="color:#8b949e; font-size:0.7em; margin-top:40px;">
+    Skills &bull; Agents &bull; Serve API &bull; Knowledge Base &bull; Containerlab
+  </p>
+</section>
+
+<!-- ═══════════ PROBLEM ═══════════ -->
+<section>
+  <h2>The Problem</h2>
+  <div style="text-align:left; max-width:720px; margin:0 auto;">
+    <p class="fragment">Configuring network devices requires:</p>
+    <ul>
+      <li class="fragment">Deep knowledge of vendor-specific CLI syntax</li>
+      <li class="fragment">Reading 1000+ page documentation PDFs</li>
+      <li class="fragment">Manually writing configs per device</li>
+      <li class="fragment">Building lab topologies by hand</li>
+    </ul>
+    <p class="fragment" style="color:#58a6ff; margin-top:30px;">
+      What if an agent could read all the docs and generate configs for you?
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ SOLUTION ═══════════ -->
+<section>
+  <h2>The Solution</h2>
+  <div class="two-col">
+    <div class="highlight-box">
+      <h3 style="font-size:0.85em;"><span class="tag tag-skill">Skill 1</span> OpenAPI Agent</h3>
+      <p style="font-size:0.65em;">Reads any OpenAPI spec + app rules, calls the right endpoints automatically.</p>
+    </div>
+    <div class="highlight-box">
+      <h3 style="font-size:0.85em;"><span class="tag tag-nokia">Skill 2</span> Nokia NetOps</h3>
+      <p style="font-size:0.65em;">Queries ChromaDB knowledge base of Nokia docs, generates configs + Containerlab topologies.</p>
+    </div>
+  </div>
+  <p class="fragment" style="font-size:0.75em; margin-top:20px;">
+    Both exposed via <strong>OpenCode Serve API</strong> — callable from n8n, other agents, or CLI.
+  </p>
+</section>
+
+<!-- ═══════════ ARCHITECTURE LAYERS ═══════════ -->
+<section>
+  <h2>The 4-Layer Architecture</h2>
+  <div class="layer-stack">
+    <div class="layer layer-a2a fragment">
+      <span class="tag tag-a2a">A2A</span>
+      <strong>Agent-to-Agent Protocol</strong><br>
+      <span style="font-size:0.85em; color:#8b949e;">Agents discover and delegate tasks to each other</span>
+    </div>
+    <div class="layer layer-serve fragment">
+      <span class="tag tag-serve">SERVE</span>
+      <strong>OpenCode Serve API</strong><br>
+      <span style="font-size:0.85em; color:#8b949e;">HTTP bridge — makes agents callable from anywhere</span>
+    </div>
+    <div class="layer layer-data fragment">
+      <span class="tag tag-data">DATA</span>
+      <strong>ChromaDB / MCP / Datasources</strong><br>
+      <span style="font-size:0.85em; color:#8b949e;">Vector KB, databases, external tools</span>
+    </div>
+    <div class="layer layer-skills fragment">
+      <span class="tag tag-skill">SKILLS</span>
+      <strong>Skills + AGENTS.md</strong><br>
+      <span style="font-size:0.85em; color:#8b949e;">Domain knowledge — what to do and how</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ PROJECT STRUCTURE ═══════════ -->
+<section>
+  <h2>Project Structure</h2>
+  <pre><code class="language-text" data-trim>
+poc/skills/
+├── AGENTS.md                              # Project rules
+├── opencode.json                          # Config + agent registry
+│
+├── .opencode/
+│   ├── agents/
+│   │   ├── api-agent.md                   # OpenAPI subagent
+│   │   └── nokia-netops-agent.md          # Nokia subagent
+│   └── skills/
+│       ├── openapi-agent/
+│       │   ├── SKILL.md                   # Core API skill
+│       │   └── apps/
+│       │       ├── TEMPLATE.md
+│       │       └── petstore/RULES.md      # Petstore rules
+│       └── nokia-netops/
+│           ├── SKILL.md                   # Nokia config skill
+│           └── sources/                   # Extra doc files
+│
+├── ingest/
+│   ├── ingest.py                          # Doc → ChromaDB pipeline
+│   ├── sources.yaml                       # Nokia doc URLs
+│   └── requirements.txt                   # Python dependencies
+│
+├── scripts/
+│   ├── call-agent.sh                      # CLI caller
+│   ├── query-kb.py                        # Query ChromaDB
+│   └── n8n-webhook-example.json           # n8n workflow
+│
+├── data/chromadb/                         # Vector DB (generated)
+└── demo/index.html                        # This presentation
+  </code></pre>
+</section>
+
+<!-- ═══════════ NOKIA NETOPS SKILL ═══════════ -->
+<section>
+  <section>
+    <h2><span class="tag tag-nokia">Nokia NetOps</span> Skill</h2>
+    <p style="font-size:0.75em; color:#8b949e;">Generates device configs from a knowledge base of Nokia documentation</p>
+    <pre><code class="language-yaml" data-trim>
+---
+name: nokia-netops
+description: "Generate Nokia SR Linux and SR OS device
+  configurations and Containerlab topologies by querying
+  a ChromaDB knowledge base built from official Nokia
+  documentation."
+---
+    </code></pre>
+    <p class="fragment" style="font-size:0.7em;">Press <strong>down</strong> for details</p>
+  </section>
+  <section>
+    <h3>What It Can Do</h3>
+    <div style="text-align:left; max-width:700px; margin:0 auto; font-size:0.75em;">
+      <ul>
+        <li class="fragment"><strong>Single device:</strong> "Configure hostname and cards on SR OS"</li>
+        <li class="fragment"><strong>Multi-device:</strong> "Configure 5 SROS routers with eBGP full mesh"</li>
+        <li class="fragment"><strong>Mixed platforms:</strong> "2 SROS spines + 3 SR Linux leaves"</li>
+        <li class="fragment"><strong>Full lab:</strong> "Generate configs + Containerlab topology"</li>
+        <li class="fragment"><strong>Specific features:</strong> "Add OSPF area 0 with BFD on all links"</li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <h3>Skill Steps</h3>
+    <div style="text-align:left; max-width:700px; margin:0 auto; font-size:0.72em;">
+      <ol>
+        <li class="fragment">Identify platform — SR Linux, SR OS, or both</li>
+        <li class="fragment">Query ChromaDB for relevant config syntax</li>
+        <li class="fragment">Determine device count and roles (spine/leaf/PE/CE)</li>
+        <li class="fragment">Generate configs with correct CLI syntax</li>
+        <li class="fragment">Assign addressing — loopbacks, P2P links, management</li>
+        <li class="fragment">Generate Containerlab <code>.clab.yml</code> if requested</li>
+        <li class="fragment">Output all files + summary table</li>
+      </ol>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════ CHROMADB PIPELINE ═══════════ -->
+<section>
+  <section>
+    <h2><span class="tag tag-data">ChromaDB</span> Ingestion Pipeline</h2>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+Nokia Documentation                ChromaDB
+┌─────────────────┐              ┌──────────────────┐
+│ HTML Pages       │              │                  │
+│  • BGP Guide     │──┐           │  nokia_docs      │
+│  • Interface Ref │  │  ingest   │  collection      │
+│  • CLI Reference │  ├─────────> │                  │
+│                  │  │           │  • chunked text  │
+│ PDF Guides       │  │  fetch    │  • embeddings    │
+│  • Config Basics │──┘  chunk    │  • metadata      │
+│  • System Guide  │    embed     │    - platform    │
+│                  │              │    - category    │
+│ Containerlab     │              │    - source URL  │
+│  • SRL kind docs │              │                  │
+│  • SROS kind docs│              └──────────────────┘
+└─────────────────┘
+</pre>
+    </div>
+  </section>
+  <section>
+    <h3>Ingestion Script</h3>
+    <pre><code class="language-bash" data-trim>
+# Install dependencies
+pip install -r ingest/requirements.txt
+
+# Run ingestion
+python3 ingest/ingest.py
+
+# What happens:
+# 1. Reads sources.yaml (URLs to Nokia docs)
+# 2. Fetches each HTML page / PDF
+# 3. Strips nav/header/footer
+# 4. Chunks text (1000 chars, 200 overlap)
+# 5. Stores in ChromaDB with metadata
+    </code></pre>
+    <pre class="fragment"><code class="language-bash" data-trim>
+# Query the knowledge base
+python3 scripts/query-kb.py \
+  --query "BGP neighbor configuration SR Linux" \
+  --platform srlinux \
+  --n-results 5
+    </code></pre>
+  </section>
+  <section>
+    <h3>sources.yaml</h3>
+    <pre><code class="language-yaml" data-trim>
+sources:
+  # SR Linux
+  - url: https://documentation.nokia.com/srlinux/.../configb-bgp.html
+    platform: srlinux
+    category: bgp
+    type: html
+
+  - url: https://documentation.nokia.com/.../SR_Linux_Config_Basics.pdf
+    platform: srlinux
+    category: config-basics
+    type: pdf
+
+  # SR OS
+  - url: https://documentation.nokia.com/.../bgp_cli.html
+    platform: sros
+    category: bgp
+    type: html
+
+  # Containerlab
+  - url: https://containerlab.dev/manual/kinds/srl/
+    platform: containerlab
+    category: srlinux-kind
+    type: html
+    </code></pre>
+  </section>
+</section>
+
+<!-- ═══════════ DATASOURCE CONNECTION ═══════════ -->
+<section>
+  <h2>How Datasources Connect to Skills</h2>
+  <div class="flow-diagram">
+<pre style="margin:0;">
+┌─────────────────────────────────────────┐
+│           SKILL (SKILL.md)              │  ← Knows the workflow
+│  "query the KB, generate the config"    │
+├──────────┬──────────┬───────────────────┤
+│ ChromaDB │   MCP    │  Files            │  ← Datasource layer
+│ (vector) │ (tools)  │ (inline)          │
+├──────────┼──────────┼───────────────────┤
+│ Nokia    │ Postgres │ OpenAPI spec      │  ← Actual data
+│ docs     │ SQLite   │ RULES.md          │
+│ embedded │ S3       │ config.yaml       │
+└──────────┴──────────┴───────────────────┘
+</pre>
+  </div>
+  <p class="fragment" style="font-size:0.7em;">
+    The skill is the <strong>brain</strong> — it doesn't hold data,<br>
+    it knows <strong>which datasource to use and when</strong>.
+  </p>
+</section>
+
+<!-- ═══════════ CONFIG EXAMPLES ═══════════ -->
+<section>
+  <section>
+    <h2>Generated Config: SR Linux</h2>
+    <pre><code class="language-text" data-trim>
+# leaf1.cfg — SR Linux (ixr-d2l)
+system {
+    name {
+        host-name "leaf1"
+    }
+}
+
+interface ethernet-1/1 {
+    admin-state enable
+    subinterface 0 {
+        ipv4 {
+            admin-state enable
+            address 10.0.1.1/30 { }
+        }
+    }
+}
+
+network-instance default {
+    interface ethernet-1/1.0 { }
+    interface system0.0 { }
+    protocols {
+        bgp {
+            admin-state enable
+            autonomous-system 65001
+            router-id 10.10.10.1
+            group to-spine {
+                peer-as 65100
+                ipv4-unicast { admin-state enable }
+            }
+            neighbor 10.0.1.2 {
+                peer-group to-spine
+            }
+        }
+    }
+}
+    </code></pre>
+  </section>
+  <section>
+    <h2>Generated Config: SR OS</h2>
+    <pre><code class="language-text" data-trim>
+# spine1.partial.cfg — SR OS (7750 SR-1)
+configure {
+    system {
+        name "spine1"
+    }
+    card 1 {
+        card-type iom-1
+        mda 1 {
+            mda-type me6-100gb-qsfp28
+        }
+    }
+    router "Base" {
+        autonomous-system 65100
+        router-id 10.10.10.100
+        interface "system" {
+            ipv4 {
+                primary {
+                    address 10.10.10.100
+                    prefix-length 32
+                }
+            }
+        }
+        interface "to-leaf1" {
+            port 1/1/1
+            ipv4 {
+                primary {
+                    address 10.0.1.2
+                    prefix-length 30
+                }
+            }
+        }
+        bgp {
+            group "to-leaves" {
+                peer-as 65001
+            }
+            neighbor 10.0.1.1 {
+                group "to-leaves"
+            }
+        }
+    }
+}
+    </code></pre>
+  </section>
+  <section>
+    <h2>Generated Containerlab Topology</h2>
+    <pre><code class="language-yaml" data-trim>
+# topology.clab.yml
+name: nokia-bgp-lab
+topology:
+  kinds:
+    nokia_srlinux:
+      image: ghcr.io/nokia/srlinux
+      type: ixr-d2l
+    nokia_sros:
+      image: vrnetlab/nokia_sros:23.10.R1
+      type: sr-1
+      license: license-sros.txt
+
+  nodes:
+    spine1:
+      kind: nokia_sros
+      startup-config: configs/spine1.partial.cfg
+    spine2:
+      kind: nokia_sros
+      startup-config: configs/spine2.partial.cfg
+    leaf1:
+      kind: nokia_srlinux
+      startup-config: configs/leaf1.cfg
+    leaf2:
+      kind: nokia_srlinux
+      startup-config: configs/leaf2.cfg
+    leaf3:
+      kind: nokia_srlinux
+      startup-config: configs/leaf3.cfg
+
+  links:
+    - endpoints: ["spine1:1/1/1", "leaf1:e1-1"]
+    - endpoints: ["spine1:1/1/2", "leaf2:e1-1"]
+    - endpoints: ["spine1:1/1/3", "leaf3:e1-1"]
+    - endpoints: ["spine2:1/1/1", "leaf1:e1-2"]
+    - endpoints: ["spine2:1/1/2", "leaf2:e1-2"]
+    - endpoints: ["spine2:1/1/3", "leaf3:e1-2"]
+    </code></pre>
+  </section>
+</section>
+
+<!-- ═══════════ OPENCODE SERVE ═══════════ -->
+<section>
+  <section>
+    <h2>OpenCode Serve — HTTP Bridge</h2>
+    <div class="highlight-box">
+      <code style="color:#3fb950;">opencode serve --port 4096</code>
+    </div>
+    <table style="font-size:0.6em; margin-top:20px;">
+      <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>POST /session</code></td><td>Create a conversation</td></tr>
+        <tr><td><code>POST /session/{id}/message</code></td><td>Send task to specific agent</td></tr>
+        <tr><td><code>POST /session/{id}/prompt_async</code></td><td>Fire-and-forget</td></tr>
+        <tr><td><code>GET  /session/{id}/message</code></td><td>Get results</td></tr>
+        <tr><td><code>GET  /agent</code></td><td>List available agents</td></tr>
+        <tr><td><code>GET  /doc</code></td><td>OpenAPI spec (Swagger)</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Calling the Nokia Agent via HTTP</h3>
+    <pre><code class="language-bash" data-trim>
+# 1. Create a session
+curl -X POST http://localhost:4096/session \
+  -H "Content-Type: application/json" \
+  -d '{"title": "nokia-lab"}'
+# → { "data": { "id": "ses_abc123" } }
+    </code></pre>
+    <pre class="fragment"><code class="language-bash" data-trim>
+# 2. Send config request to nokia-netops-agent
+curl -X POST http://localhost:4096/session/ses_abc123/message \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent": "nokia-netops-agent",
+    "parts": [{
+      "type": "text",
+      "text": "Configure 5 SROS routers with eBGP full mesh. Generate all configs and a containerlab topology."
+    }]
+  }'
+    </code></pre>
+  </section>
+</section>
+
+<!-- ═══════════ FULL FLOW ═══════════ -->
+<section>
+  <h2>End-to-End Flow</h2>
+  <div class="flow-diagram" style="font-size:0.46em;">
+<pre style="margin:0;">
+┌──────────────┐        ┌──────────────┐        ┌────────────────────┐        ┌──────────┐
+│  User / n8n  │  HTTP  │  OpenCode    │ route  │ nokia-netops-agent │  curl  │ External │
+│  / Agent     │───────>│  Serve API   │───────>│                    │───────>│   API    │
+│              │<───────│  :4096       │<───────│                    │<───────│(optional)│
+└──────────────┘        └──────────────┘        └─────────┬──────────┘        └──────────┘
+                                                          │
+                                        ┌─────────────────┤
+                                        │                 │
+                                        ▼                 ▼
+                                ┌──────────────┐  ┌──────────────┐
+                                │ nokia-netops │  │   ChromaDB   │
+                                │   (skill)    │  │              │
+                                │              │  │ nokia_docs   │
+                                │ • SR Linux   │  │ collection   │
+                                │   syntax     │  │              │
+                                │ • SR OS      │  │ Nokia PDFs   │
+                                │   syntax     │  │ Nokia HTML   │
+                                │ • Clab       │  │ Clab docs    │
+                                │   templates  │  │              │
+                                └──────┬───────┘  └──────────────┘
+                                       │
+                                       ▼
+                                ┌──────────────┐
+                                │   Output     │
+                                │              │
+                                │ • router1.cfg│
+                                │ • router2.cfg│
+                                │ • ...        │
+                                │ • topology   │
+                                │   .clab.yml  │
+                                └──────────────┘
+</pre>
+  </div>
+</section>
+
+<!-- ═══════════ STEP BY STEP ═══════════ -->
+<section>
+  <h2>Step by Step</h2>
+  <table style="font-size:0.56em;">
+    <thead><tr><th>#</th><th>What Happens</th><th>Layer</th></tr></thead>
+    <tbody>
+      <tr class="fragment"><td>1</td><td>User/n8n sends HTTP POST to OpenCode</td><td><span class="tag tag-serve">SERVE</span></td></tr>
+      <tr class="fragment"><td>2</td><td>OpenCode routes to <code>nokia-netops-agent</code></td><td><span class="tag tag-serve">SERVE</span></td></tr>
+      <tr class="fragment"><td>3</td><td>Agent loads <code>nokia-netops</code> skill</td><td><span class="tag tag-skill">SKILL</span></td></tr>
+      <tr class="fragment"><td>4</td><td>Queries ChromaDB for config syntax &amp; examples</td><td><span class="tag tag-data">DATA</span></td></tr>
+      <tr class="fragment"><td>5</td><td>Generates per-device configs (correct CLI syntax)</td><td><span class="tag tag-skill">SKILL</span></td></tr>
+      <tr class="fragment"><td>6</td><td>Generates Containerlab topology YAML</td><td><span class="tag tag-skill">SKILL</span></td></tr>
+      <tr class="fragment"><td>7</td><td>Writes all files + summary</td><td><span class="tag tag-serve">SERVE</span></td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ N8N INTEGRATION ═══════════ -->
+<section>
+  <section>
+    <h2>n8n Integration</h2>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+┌───────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────┐
+│  Webhook  │───>│   Create     │───>│   Send to   │───>│  Return  │
+│  Trigger  │    │   Session    │    │   Agent     │    │ Response │
+│           │    │              │    │             │    │          │
+│ POST:     │    │ POST         │    │ POST        │    │ configs  │
+│  agent    │    │ /session     │    │ /message    │    │ topology │
+│  prompt   │    │              │    │             │    │          │
+└───────────┘    └──────────────┘    └─────────────┘    └──────────┘
+</pre>
+    </div>
+    <pre class="fragment"><code class="language-bash" data-trim>
+# Trigger from anywhere
+curl -X POST https://your-n8n.com/webhook/agent-task \
+  -H "Content-Type: application/json" \
+  -d '{
+    "agent": "nokia-netops-agent",
+    "prompt": "Configure 3 SR Linux routers with OSPF area 0"
+  }'
+    </code></pre>
+  </section>
+</section>
+
+<!-- ═══════════ A2A PROTOCOL ═══════════ -->
+<section>
+  <section>
+    <h2>A2A — Agent-to-Agent Protocol</h2>
+    <p style="font-size:0.7em; color:#8b949e;">
+      Google's open protocol (Linux Foundation) for agent interoperability
+    </p>
+    <div class="flow-diagram fragment">
+<pre style="margin:0;">
+  Orchestrator Agent              Nokia NetOps Agent
+       │                              │
+       │  1. Read Agent Card          │
+       │─────────────────────────────>│  (discover capabilities)
+       │                              │
+       │  2. SendMessage              │
+       │─────────────────────────────>│  "5 SROS routers, eBGP"
+       │                              │
+       │  3. Task {WORKING}           │
+       │<─────────────────────────────│
+       │                              │  (queries KB, generates configs)
+       │  4. Task {COMPLETED}         │
+       │<─────────────────────────────│
+       │     + artifacts              │  (configs + topology files)
+</pre>
+    </div>
+  </section>
+  <section>
+    <h3>Agent Card</h3>
+    <pre><code class="language-json" data-trim>
+{
+  "name": "Nokia NetOps Agent",
+  "description": "Generates Nokia SR Linux / SR OS configs and Containerlab topologies",
+  "provider": { "name": "Your Org" },
+  "interfaces": [{
+    "type": "a2a",
+    "url": "https://your-host:4096/a2a"
+  }],
+  "skills": [
+    {
+      "id": "nokia-config",
+      "name": "Nokia Config Generator",
+      "description": "SR Linux and SR OS device configurations"
+    },
+    {
+      "id": "containerlab-topology",
+      "name": "Containerlab Topology",
+      "description": "Lab topology YAML generation"
+    }
+  ]
+}
+    </code></pre>
+  </section>
+</section>
+
+<!-- ═══════════ MCP vs A2A ═══════════ -->
+<section>
+  <h2>Protocol Comparison</h2>
+  <table>
+    <thead><tr><th>Protocol</th><th>Role</th><th>Analogy</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-skill">Skills</span></td><td>Domain knowledge &amp; workflows</td><td>The playbook</td></tr>
+      <tr><td><span class="tag tag-data">ChromaDB</span></td><td>Vector knowledge base</td><td>The library</td></tr>
+      <tr><td><span class="tag tag-mcp">MCP</span></td><td>Tool &amp; data connections</td><td>The toolbox</td></tr>
+      <tr><td><span class="tag tag-serve">Serve</span></td><td>HTTP API exposure</td><td>The phone line</td></tr>
+      <tr><td><span class="tag tag-a2a">A2A</span></td><td>Agent discovery &amp; delegation</td><td>The directory</td></tr>
+    </tbody>
+  </table>
+  <p class="fragment" style="font-size:0.65em; color:#8b949e; margin-top:15px;">
+    Complementary layers. Stack them as needed.
+  </p>
+</section>
+
+<!-- ═══════════ MULTI-AGENT ═══════════ -->
+<section>
+  <h2>Multi-Agent Scenario</h2>
+  <div class="flow-diagram" style="font-size:0.48em;">
+<pre style="margin:0;">
+                    ┌─────────────────┐
+                    │  Orchestrator   │
+                    │  (n8n / agent)  │
+                    └───┬─────────┬───┘
+                        │         │
+              ┌─────────┘         └──────────┐
+              ▼                              ▼
+  ┌───────────────────┐          ┌───────────────────┐
+  │  Nokia NetOps     │          │   OpenAPI Agent   │
+  │  Agent            │          │                   │
+  │                   │          │  → Petstore API   │
+  │  → Query ChromaDB │          │  → GitHub API     │
+  │  → Generate configs│          │  → Jira API       │
+  │  → Clab topology  │          │  → Any API w/spec │
+  └───────────────────┘          └───────────────────┘
+         │                              │
+         ▼                              ▼
+  ┌──────────────┐               ┌──────────────┐
+  │ 5x router    │               │ API responses│
+  │ configs +    │               │              │
+  │ topology.yml │               │              │
+  └──────────────┘               └──────────────┘
+
+  "Generate a 5-router BGP lab, then create a
+   Jira ticket with the topology diagram"
+</pre>
+  </div>
+</section>
+
+<!-- ═══════════ DEMO COMMANDS ═══════════ -->
+<section>
+  <h2>Demo</h2>
+  <div class="small-code">
+  <pre><code class="language-bash" data-trim>
+# Step 1: Ingest Nokia docs into ChromaDB
+pip install -r ingest/requirements.txt
+python3 ingest/ingest.py
+
+# Step 2: Start OpenCode server
+opencode serve --port 4096
+
+# Step 3: Generate configs via CLI
+./scripts/call-agent.sh nokia-netops-agent \
+  "Configure 5 SROS routers with eBGP full mesh, generate containerlab topology"
+
+# Step 4: Deploy the lab
+cd output/
+sudo containerlab deploy -t topology.clab.yml
+  </code></pre>
+  </div>
+</section>
+
+<!-- ═══════════ ADDING NEW APPS ═══════════ -->
+<section>
+  <h2>Extending the Platform</h2>
+  <div class="two-col" style="font-size:0.72em;">
+    <div>
+      <h3 style="font-size:0.9em;">New API App</h3>
+      <pre style="font-size:0.75em;"><code class="language-bash" data-trim>
+# Copy template
+mkdir .opencode/skills/\
+  openapi-agent/apps/my-app
+
+cp apps/TEMPLATE.md \
+   apps/my-app/RULES.md
+
+# Fill in: auth, base URL,
+# workflows, quirks
+      </code></pre>
+    </div>
+    <div>
+      <h3 style="font-size:0.9em;">New Doc Source</h3>
+      <pre style="font-size:0.75em;"><code class="language-yaml" data-trim>
+# Add to ingest/sources.yaml
+- url: https://docs.example.com
+  platform: srlinux
+  category: new-feature
+  type: html
+
+# Re-ingest
+python3 ingest/ingest.py
+      </code></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ WHAT'S NEXT ═══════════ -->
+<section>
+  <h2>Current State &amp; Next Steps</h2>
+  <div class="two-col">
+    <div class="highlight-box">
+      <h3 style="font-size:0.85em; color:#3fb950;">Built</h3>
+      <ul style="font-size:0.58em;">
+        <li>OpenAPI agent skill</li>
+        <li>Nokia NetOps skill</li>
+        <li>ChromaDB ingestion pipeline</li>
+        <li>SR Linux + SR OS config templates</li>
+        <li>Containerlab topology generation</li>
+        <li>HTTP serve integration</li>
+        <li>n8n workflow template</li>
+        <li>CLI caller + KB query scripts</li>
+      </ul>
+    </div>
+    <div class="highlight-box">
+      <h3 style="font-size:0.85em; color:#ffa657;">Next</h3>
+      <ul style="font-size:0.58em;">
+        <li>A2A adapter + Agent Card</li>
+        <li>Config validation (pygnmi / pySROS)</li>
+        <li>Push configs to live devices</li>
+        <li>More protocols (OSPF, IS-IS, MPLS, EVPN)</li>
+        <li>Topology visualization</li>
+        <li>MCP server for device state queries</li>
+        <li>Docker compose full stack</li>
+        <li>CI/CD: auto-ingest on doc updates</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ THANK YOU ═══════════ -->
+<section>
+  <h1>Thank You</h1>
+  <p style="color:#8b949e; margin-top:20px; font-size:0.8em;">
+    Skills + ChromaDB + Serve + A2A = Agentic Network Operations
+  </p>
+  <br>
+  <div style="font-size:0.6em; color:#8b949e;">
+    <a href="https://opencode.ai/docs/skills/">OpenCode Skills</a> &bull;
+    <a href="https://opencode.ai/docs/server/">OpenCode Server</a> &bull;
+    <a href="https://a2a-protocol.org/latest/specification/">A2A Protocol</a> &bull;
+    <a href="https://containerlab.dev/">Containerlab</a> &bull;
+    <a href="https://docs.trychroma.com/">ChromaDB</a>
+  </div>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    transition: 'slide',
+    plugins: [RevealHighlight, RevealNotes],
+    width: 1200,
+    height: 700,
+  });
+</script>
+</body>
+</html>

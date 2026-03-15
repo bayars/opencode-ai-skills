@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "agent": {
+    "api-agent": {
+      "description": "Interacts with external applications via their OpenAPI specs",
+      "mode": "subagent",
+      "tools": {
+        "write": false,
+        "edit": false
+      }
+    },
+    "nokia-netops-agent": {
+      "description": "Generates Nokia SR Linux and SR OS configs and Containerlab topologies from a ChromaDB knowledge base",
+      "mode": "subagent",
+      "tools": {
+        "write": true,
+        "edit": true,
+        "bash": true,
+        "read": true
+      }
+    }
+  }
+}

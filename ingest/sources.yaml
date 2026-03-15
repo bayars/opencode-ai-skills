@@ -1,0 +1,85 @@
+# Nokia Documentation Sources for ChromaDB Ingestion
+#
+# Add URLs to official Nokia documentation pages (HTML or PDF).
+# The ingestion script will fetch, chunk, and embed them.
+
+sources:
+  # ── SR Linux ──────────────────────────────────────────────
+
+  # Configuration Basics
+  - url: https://documentation.nokia.com/srlinux/22-6/SR_Linux_Book_Files/Configuration_Basics_Guide/configb-bgp.html
+    platform: srlinux
+    category: bgp
+    type: html
+
+  - url: https://documentation.nokia.com/srlinux/22-6/SR_Linux_Book_Files/Configuration_Basics_Guide/configb-interfaces.html
+    platform: srlinux
+    category: interfaces
+    type: html
+
+  # System Management
+  - url: https://documentation.nokia.com/srlinux/23-10/books/system-mgmt/cli-interface.html
+    platform: srlinux
+    category: system
+    type: html
+
+  # PDF Guides
+  - url: https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE16819AAAATQZZA01_V1_SR%20Linux%20R21.3%20Configuration%20Basics.pdf
+    platform: srlinux
+    category: config-basics
+    type: pdf
+
+  - url: https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE16110AAAATQZZA01_V1_SR%20Linux%20R20.6%20Interface%20Configuration%20Guide.pdf
+    platform: srlinux
+    category: interfaces
+    type: pdf
+
+  # ── SR OS (SROS) ─────────────────────────────────────────
+
+  # BGP Configuration
+  - url: https://documentation.nokia.com/html/0_add-h-f/93-0074-HTML/7750_SR_OS_Routing_Protols_Guide/bgp.html
+    platform: sros
+    category: bgp
+    type: html
+
+  - url: https://documentation.nokia.com/html/0_add-h-f/93-0074-HTML/7750_SR_OS_Routing_Protols_Guide/bgp_cli.html
+    platform: sros
+    category: bgp
+    type: html
+
+  # BGP Command Reference
+  - url: https://documentation.nokia.com/html/0_add-h-f/93-0074-HTML/7750_SR_OS_Routing_Protols_Guide/BGP-CLI-tree.html
+    platform: sros
+    category: bgp-reference
+    type: html
+
+  # Basic System Configuration (PDF)
+  - url: https://documentation.nokia.com/cgi-bin/dbaccessfilename.cgi/3HE17141AAABTQZZA01_V1_7450%20ESS%207750%20SR%207950%20XRS%20and%20VSR%20Basic%20System%20Configuration%20Guide%2021.5.R1.pdf
+    platform: sros
+    category: system
+    type: pdf
+
+  # ── Containerlab ─────────────────────────────────────────
+
+  - url: https://containerlab.dev/manual/kinds/srl/
+    platform: containerlab
+    category: srlinux-kind
+    type: html
+
+  - url: https://containerlab.dev/manual/kinds/vr-sros/
+    platform: containerlab
+    category: sros-kind
+    type: html
+
+  - url: https://containerlab.dev/manual/topo-def-file/
+    platform: containerlab
+    category: topology
+    type: html
+
+# ────────────────────────────────────────────────────────────
+# To add more sources, append entries following the format:
+#
+#   - url: <url-or-local-path>
+#     platform: srlinux | sros | containerlab
+#     category: <topic>
+#     type: html | pdf

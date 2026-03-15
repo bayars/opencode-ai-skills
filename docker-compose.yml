@@ -1,0 +1,41 @@
+services:
+  # ── Presentation ──────────────────────────────────────
+  demo:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    container_name: skills-demo
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  # ── OpenCode Serve (Agent Skills API) ─────────────────
+  opencode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: skills-opencode
+    ports:
+      - "4096:4096"
+    environment:
+      # Set your LLM provider key
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      # Optional: protect the serve API
+      - OPENCODE_SERVER_PASSWORD=${OPENCODE_SERVER_PASSWORD:-}
+      - OPENCODE_SERVER_USERNAME=${OPENCODE_SERVER_USERNAME:-opencode}
+    volumes:
+      # Persist ChromaDB data
+      - chromadb-data:/app/data/chromadb
+      # Persist generated configs
+      - ./output:/app/output
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:4096/global/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 3
+
+volumes:
+  chromadb-data:
