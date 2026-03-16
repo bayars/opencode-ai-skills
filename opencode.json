@@ -41,6 +41,28 @@
         "bash": true,
         "read": true
       }
+    },
+    "dtaas-deploy-agent": {
+      "description": "Deploys Containerlab topologies to the DTaaS platform via its REST API",
+      "mode": "subagent",
+      "model": "ollama/qwen2.5-coder:14b",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": true,
+        "read": true
+      }
+    },
+    "test-writer-agent": {
+      "description": "Generates and runs network test cases for deployed labs via the Test Runner API",
+      "mode": "subagent",
+      "model": "ollama/qwen2.5-coder:14b",
+      "tools": {
+        "write": false,
+        "edit": false,
+        "bash": true,
+        "read": true
+      }
     }
   }
 }

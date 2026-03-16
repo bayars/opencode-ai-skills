@@ -51,6 +51,8 @@
     .tag-serve { background: rgba(56,139,253,0.3);  color: #58a6ff; }
     .tag-data  { background: rgba(255,85,85,0.3);   color: #ff5555; }
     .tag-nokia { background: rgba(18,77,120,0.5);   color: #48b0f7; }
+    .tag-dtaas { background: rgba(220,120,50,0.3);  color: #f0a050; }
+    .tag-test  { background: rgba(180,80,220,0.3);   color: #d080f0; }
     .reveal table { font-size: 0.65em; margin: 0 auto; }
     .reveal table th { color: #58a6ff; border-bottom: 2px solid #30363d; }
     .reveal table td { border-bottom: 1px solid #21262d; }
@@ -74,7 +76,7 @@
   <h1>Agentic Skills Platform</h1>
   <h3>OpenCode + Nokia NetOps + ChromaDB</h3>
   <p style="color:#8b949e; font-size:0.7em; margin-top:40px;">
-    Skills &bull; Agents &bull; Serve API &bull; Knowledge Base &bull; Containerlab
+    Skills &bull; Agents &bull; Serve API &bull; Knowledge Base &bull; DTaaS &bull; Testing
   </p>
 </section>
 
@@ -97,19 +99,27 @@
 
 <!-- ═══════════ SOLUTION ═══════════ -->
 <section>
-  <h2>The Solution</h2>
-  <div class="two-col">
-    <div class="highlight-box">
-      <h3 style="font-size:0.85em;"><span class="tag tag-skill">Skill 1</span> OpenAPI Agent</h3>
-      <p style="font-size:0.65em;">Reads any OpenAPI spec + app rules, calls the right endpoints automatically.</p>
+  <h2>The Solution — 4 Skills</h2>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:780px; margin:0 auto;">
+    <div class="highlight-box" style="padding:14px;">
+      <h3 style="font-size:0.8em;"><span class="tag tag-skill">1</span> OpenAPI Agent</h3>
+      <p style="font-size:0.6em;">Reads any OpenAPI spec + app rules, calls endpoints automatically.</p>
     </div>
-    <div class="highlight-box">
-      <h3 style="font-size:0.85em;"><span class="tag tag-nokia">Skill 2</span> Nokia NetOps</h3>
-      <p style="font-size:0.65em;">Queries ChromaDB knowledge base of Nokia docs, generates configs + Containerlab topologies.</p>
+    <div class="highlight-box" style="padding:14px;">
+      <h3 style="font-size:0.8em;"><span class="tag tag-nokia">2</span> Nokia NetOps</h3>
+      <p style="font-size:0.6em;">Queries ChromaDB, generates device configs + Containerlab topologies.</p>
+    </div>
+    <div class="highlight-box" style="padding:14px;">
+      <h3 style="font-size:0.8em;"><span class="tag tag-dtaas">3</span> DTaaS Deploy</h3>
+      <p style="font-size:0.6em;">Deploys generated labs to the Digital Twin as a Service platform via API.</p>
+    </div>
+    <div class="highlight-box" style="padding:14px;">
+      <h3 style="font-size:0.8em;"><span class="tag tag-test">4</span> Test Writer</h3>
+      <p style="font-size:0.6em;">Generates and runs network test cases to validate deployed labs.</p>
     </div>
   </div>
-  <p class="fragment" style="font-size:0.75em; margin-top:20px;">
-    Both exposed via <strong>OpenCode Serve API</strong> — callable from n8n, other agents, or CLI.
+  <p class="fragment" style="font-size:0.7em; margin-top:16px;">
+    All exposed via <strong>OpenCode Serve API</strong> — callable from Azure AI Foundry, Glean, other agents, or CLI.
   </p>
 </section>
 
@@ -140,45 +150,144 @@
   </div>
 </section>
 
-<!-- ═══════════ PROJECT STRUCTURE ═══════════ -->
+<!-- ═══════════ WHAT IS A SKILL ═══════════ -->
 <section>
-  <h2>Project Structure</h2>
-  <pre><code class="language-text" data-trim>
-poc/skills/
-├── AGENTS.md                              # Project rules
-├── opencode.json                          # Config + agent registry + Ollama
-├── Dockerfile                             # OpenCode serve container
-├── docker-compose.yml                     # Full stack deployment
-│
-├── .opencode/
-│   ├── agents/
-│   │   ├── api-agent.md                   # OpenAPI subagent
-│   │   └── nokia-netops-agent.md          # Nokia subagent
-│   └── skills/
-│       ├── openapi-agent/
-│       │   ├── SKILL.md                   # Core API skill
-│       │   └── apps/
-│       │       ├── TEMPLATE.md
-│       │       └── petstore/RULES.md      # Petstore rules
-│       └── nokia-netops/
-│           └── SKILL.md                   # Nokia config skill
-│
-├── ingest/
-│   ├── ingest.py                          # Doc → ChromaDB pipeline
-│   ├── sources.yaml                       # Nokia doc URLs
-│   └── requirements.txt                   # Python dependencies
-│
-├── scripts/
-│   ├── call-agent.sh                      # CLI caller
-│   ├── query-kb.py                        # Query ChromaDB
-│   └── n8n-webhook-example.json           # n8n workflow
-│
-├── specs/opencode-api.json                # OpenCode API spec (86 endpoints)
-├── demo/
-│   ├── index.html                         # This presentation
-│   └── Dockerfile                         # Nginx presentation container
-└── data/chromadb/                         # Vector DB (generated)
-  </code></pre>
+  <section>
+    <h2>What Is a Skill?</h2>
+    <p style="font-size:0.75em; color:#8b949e;">A skill is a <strong>markdown file</strong> that teaches an AI agent how to do a specific job</p>
+    <div class="two-col" style="margin-top:20px;">
+      <div class="highlight-box" style="text-align:left; font-size:0.65em;">
+        <strong style="color:#3fb950;">Think of it like...</strong><br><br>
+        A <strong>runbook</strong> for a new team member:<br>
+        "Here's how we do X, step by step,<br>
+        with these rules and these tools."
+      </div>
+      <div class="highlight-box" style="text-align:left; font-size:0.65em;">
+        <strong style="color:#58a6ff;">Not code — instructions</strong><br><br>
+        No Python, no JavaScript.<br>
+        Just structured text that tells the<br>
+        LLM what to do and how.
+      </div>
+    </div>
+    <p class="fragment" style="font-size:0.7em; margin-top:15px;">Press <strong>down</strong> for structure details</p>
+  </section>
+  <section>
+    <h3>Skill File Structure</h3>
+    <pre><code class="language-markdown" data-trim>
+# .opencode/skills/my-skill/SKILL.md
+
+---
+name: my-skill
+description: "What this skill does — shown in agent listings"
+---
+
+You are a [role]. Your job is to [task].
+
+## Steps
+1. First, do this
+2. Then check that
+3. Finally, output this
+
+## Rules
+- Always validate before acting
+- Never do X without confirmation
+- Use Y format for output
+    </code></pre>
+    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
+      YAML frontmatter = identity &bull; Markdown body = the actual instructions
+    </p>
+  </section>
+  <section>
+    <h3>Skill vs Agent — What's the Difference?</h3>
+    <table style="font-size:0.6em;">
+      <thead><tr><th></th><th>Skill</th><th>Agent</th></tr></thead>
+      <tbody>
+        <tr><td><strong>What</strong></td><td>Domain knowledge + steps</td><td>An LLM instance that runs skills</td></tr>
+        <tr><td><strong>File</strong></td><td><code>.opencode/skills/*/SKILL.md</code></td><td><code>.opencode/agents/*.md</code></td></tr>
+        <tr><td><strong>Contains</strong></td><td>Instructions, rules, examples</td><td>System prompt, model, tool permissions</td></tr>
+        <tr><td><strong>Analogy</strong></td><td>The recipe</td><td>The chef</td></tr>
+      </tbody>
+    </table>
+    <div class="flow-diagram fragment" style="font-size:0.5em; margin-top:15px;">
+<pre style="margin:0;">
+Agent (nokia-netops-agent.md)          Skill (nokia-netops/SKILL.md)
+┌─────────────────────────┐           ┌─────────────────────────┐
+│ model: qwen2.5-coder    │  loads    │ "Query ChromaDB for     │
+│ tools: write, bash, read│─────────> │  Nokia docs, generate   │
+│ mode: subagent           │           │  configs with correct   │
+│                          │           │  CLI syntax, output     │
+│ "I have the brain and   │           │  .clab.yml topology"    │
+│  the hands"              │           │                         │
+└─────────────────────────┘           │ "I have the knowledge"  │
+                                       └─────────────────────────┘
+</pre>
+    </div>
+  </section>
+  <section>
+    <h3>How Users Interact with Skills</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; max-width:780px; margin:0 auto;">
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#3fb950;">OpenCode TUI</h3>
+        <p style="font-size:0.55em;">Interactive terminal UI — talk to agents directly, switch between them, see live output.</p>
+        <pre style="font-size:0.7em; margin:8px 0 0;"><code class="language-bash" data-trim>
+opencode
+# or attach to server:
+opencode --attach \
+  http://localhost:4096
+        </code></pre>
+      </div>
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#58a6ff;">HTTP API</h3>
+        <p style="font-size:0.55em;">Programmatic access — Azure AI Foundry, Glean, scripts, or any HTTP client.</p>
+        <pre style="font-size:0.7em; margin:8px 0 0;"><code class="language-bash" data-trim>
+curl -X POST \
+  localhost:4096/session\
+  /{id}/message \
+  -d '{"agent":"..."}'
+        </code></pre>
+      </div>
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#d2a8ff;">Agent-to-Agent</h3>
+        <p style="font-size:0.55em;">Other agents delegate tasks via A2A protocol or direct HTTP calls.</p>
+        <pre style="font-size:0.7em; margin:8px 0 0;"><code class="language-text" data-trim>
+Orchestrator
+  → Nokia Agent
+  → DTaaS Agent
+  → Test Agent
+        </code></pre>
+      </div>
+    </div>
+  </section>
+  <section>
+    <h3>How a Skill Gets Executed</h3>
+    <div class="flow-diagram" style="font-size:0.48em;">
+<pre style="margin:0;">
+  ┌─────────────┐   ┌─────────────┐   ┌──────────────┐
+  │ OpenCode TUI│   │ HTTP API    │   │ Another      │
+  │ (terminal)  │   │ (curl/SDK)  │   │ Agent (A2A)  │
+  └──────┬──────┘   └──────┬──────┘   └──────┬───────┘
+         │                 │                  │
+         └────────────┬────┴──────────────────┘
+                      ▼
+              ┌──────────────┐
+              │  OpenCode    │  1. Route to agent
+              │  Engine      │
+              └──────┬───────┘
+                     ▼
+              ┌──────────────┐
+              │  Agent       │  2. Load SKILL.md into context
+              │  (LLM)      │  3. Follow instructions
+              └──────┬───────┘  4. Use tools (bash, read, write)
+                     ▼
+              ┌──────────────┐
+              │  Output      │  5. Return results
+              └──────────────┘
+</pre>
+    </div>
+    <div class="highlight-box fragment" style="font-size:0.62em; margin-top:12px;">
+      Same skill, same result — whether you use the TUI, the API, or another agent.
+    </div>
+  </section>
 </section>
 
 <!-- ═══════════ NOKIA NETOPS SKILL ═══════════ -->
@@ -225,83 +334,113 @@ description: "Generate Nokia SR Linux and SR OS device
   </section>
 </section>
 
-<!-- ═══════════ CHROMADB PIPELINE ═══════════ -->
+<!-- ═══════════ DTAAS DEPLOY SKILL ═══════════ -->
 <section>
   <section>
-    <h2><span class="tag tag-data">ChromaDB</span> Ingestion Pipeline</h2>
+    <h2><span class="tag tag-dtaas">DTaaS Deploy</span> Skill</h2>
+    <p style="font-size:0.75em; color:#8b949e;">Deploys generated labs to the Digital Twin as a Service platform</p>
+    <pre><code class="language-yaml" data-trim>
+---
+name: dtaas-deploy
+description: "Deploy and manage Containerlab topologies via
+  the DTaaS (Digital Twin as a Service) API. Sends topology
+  files and configs for automated lab provisioning."
+---
+    </code></pre>
+    <p class="fragment" style="font-size:0.7em;">Press <strong>down</strong> for details</p>
+  </section>
+  <section>
+    <h3>How It Works</h3>
     <div class="flow-diagram">
 <pre style="margin:0;">
-Nokia Documentation                ChromaDB
-┌─────────────────┐              ┌──────────────────┐
-│ HTML Pages       │              │                  │
-│  • BGP Guide     │──┐           │  nokia_docs      │
-│  • Interface Ref │  │  ingest   │  collection      │
-│  • CLI Reference │  ├─────────> │                  │
-│                  │  │           │  • chunked text  │
-│ PDF Guides       │  │  fetch    │  • embeddings    │
-│  • Config Basics │──┘  chunk    │  • metadata      │
-│  • System Guide  │    embed     │    - platform    │
-│                  │              │    - category    │
-│ Containerlab     │              │    - source URL  │
-│  • SRL kind docs │              │                  │
-│  • SROS kind docs│              └──────────────────┘
-└─────────────────┘
+Nokia NetOps Agent          DTaaS Deploy Agent           DTaaS API
+      │                           │                    (10.0.0.12:8080)
+      │  configs + topology       │                         │
+      │──────────────────────────>│                         │
+      │                           │  POST /api/v1/labs      │
+      │                           │────────────────────────>│
+      │                           │                         │  (deploys lab)
+      │                           │  { status: "running" }  │
+      │                           │<────────────────────────│
+      │                           │                         │
+      │     lab ID + node IPs     │  GET /labs/{id}/nodes   │
+      │<──────────────────────────│────────────────────────>│
 </pre>
     </div>
   </section>
   <section>
-    <h3>Ingestion Script</h3>
-    <pre><code class="language-bash" data-trim>
-# Install dependencies
-pip install -r ingest/requirements.txt
-
-# Run ingestion
-python3 ingest/ingest.py
-
-# What happens:
-# 1. Reads sources.yaml (URLs to Nokia docs)
-# 2. Fetches each HTML page / PDF
-# 3. Strips nav/header/footer
-# 4. Chunks text (1000 chars, 200 overlap)
-# 5. Stores in ChromaDB with metadata
-    </code></pre>
-    <pre class="fragment"><code class="language-bash" data-trim>
-# Query the knowledge base
-python3 scripts/query-kb.py \
-  --query "BGP neighbor configuration SR Linux" \
-  --platform srlinux \
-  --n-results 5
-    </code></pre>
-  </section>
-  <section>
-    <h3>sources.yaml</h3>
-    <pre><code class="language-yaml" data-trim>
-sources:
-  # SR Linux
-  - url: https://documentation.nokia.com/srlinux/.../configb-bgp.html
-    platform: srlinux
-    category: bgp
-    type: html
-
-  - url: https://documentation.nokia.com/.../SR_Linux_Config_Basics.pdf
-    platform: srlinux
-    category: config-basics
-    type: pdf
-
-  # SR OS
-  - url: https://documentation.nokia.com/.../bgp_cli.html
-    platform: sros
-    category: bgp
-    type: html
-
-  # Containerlab
-  - url: https://containerlab.dev/manual/kinds/srl/
-    platform: containerlab
-    category: srlinux-kind
-    type: html
-    </code></pre>
+    <h3>DTaaS API Endpoints</h3>
+    <table style="font-size:0.6em;">
+      <thead><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>POST</code></td><td><code>/api/v1/labs</code></td><td>Create and deploy a new lab</td></tr>
+        <tr><td><code>GET</code></td><td><code>/api/v1/labs/{id}</code></td><td>Get lab status and details</td></tr>
+        <tr><td><code>GET</code></td><td><code>/api/v1/labs/{id}/nodes</code></td><td>List nodes + management IPs</td></tr>
+        <tr><td><code>POST</code></td><td><code>/api/v1/labs/{id}/redeploy</code></td><td>Redeploy an existing lab</td></tr>
+        <tr><td><code>DELETE</code></td><td><code>/api/v1/labs/{id}</code></td><td>Tear down a lab</td></tr>
+      </tbody>
+    </table>
+    <div class="highlight-box fragment" style="font-size:0.62em; margin-top:15px;">
+      Reads configs from <code>output/</code> &bull; Monitors deployment status &bull; Reports node IPs and SSH commands
+    </div>
   </section>
 </section>
+
+<!-- ═══════════ TEST WRITER SKILL ═══════════ -->
+<section>
+  <section>
+    <h2><span class="tag tag-test">Test Writer</span> Skill</h2>
+    <p style="font-size:0.75em; color:#8b949e;">Generates and executes network test cases for deployed labs</p>
+    <pre><code class="language-yaml" data-trim>
+---
+name: test-writer
+description: "Generate network test cases for deployed labs.
+  Produces structured test suites that validate connectivity,
+  protocol state, and config correctness via the Test Runner API."
+---
+    </code></pre>
+    <p class="fragment" style="font-size:0.7em;">Press <strong>down</strong> for details</p>
+  </section>
+  <section>
+    <h3>Test Types</h3>
+    <table style="font-size:0.58em;">
+      <thead><tr><th>Type</th><th>What It Checks</th><th>Example</th></tr></thead>
+      <tbody>
+        <tr><td><code>ping</code></td><td>ICMP reachability</td><td>Ping spine1 loopback from leaf1</td></tr>
+        <tr><td><code>bgp_neighbor</code></td><td>BGP session state</td><td>spine1 ↔ leaf1 = established</td></tr>
+        <tr><td><code>route_exists</code></td><td>Route in RIB/FIB</td><td>10.10.10.1/32 via BGP on spine1</td></tr>
+        <tr><td><code>config_check</code></td><td>CLI output validation</td><td>Hostname matches "spine1"</td></tr>
+        <tr><td><code>interface_state</code></td><td>Interface admin/oper</td><td>e1-1 is up/up</td></tr>
+        <tr><td><code>lldp_neighbor</code></td><td>LLDP adjacency</td><td>leaf1:e1-1 sees spine1</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <h3>Test Runner API</h3>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+Test Writer Agent               Test Runner API
+      │                        (10.0.0.12:8081)
+      │  POST /api/v1/tests          │
+      │  { lab_id, tests: [...] }    │
+      │─────────────────────────────>│
+      │                              │  (runs tests against lab)
+      │  GET /api/v1/tests/{id}      │
+      │─────────────────────────────>│
+      │                              │
+      │  { results: [               │
+      │    { name: "Ping spine1",   │
+      │      result: "PASS" },      │
+      │    { name: "BGP session",   │
+      │      result: "FAIL",        │
+      │      detail: "idle" }       │
+      │  ]}                         │
+      │<─────────────────────────────│
+</pre>
+    </div>
+  </section>
+</section>
+
 
 <!-- ═══════════ DATASOURCE CONNECTION ═══════════ -->
 <section>
@@ -504,39 +643,39 @@ curl -X POST http://localhost:4096/session/ses_abc123/message \
 <!-- ═══════════ FULL FLOW ═══════════ -->
 <section>
   <h2>End-to-End Flow</h2>
-  <div class="flow-diagram" style="font-size:0.46em;">
+  <div class="flow-diagram" style="font-size:0.42em;">
 <pre style="margin:0;">
-┌──────────────┐        ┌──────────────┐        ┌────────────────────┐        ┌──────────┐
-│  User / n8n  │  HTTP  │  OpenCode    │ route  │ nokia-netops-agent │  curl  │ External │
-│  / Agent     │───────>│  Serve API   │───────>│                    │───────>│   API    │
-│              │<───────│  :4096       │<───────│                    │<───────│(optional)│
-└──────────────┘        └──────────────┘        └─────────┬──────────┘        └──────────┘
-                                                          │
-                                        ┌─────────────────┤
-                                        │                 │
-                                        ▼                 ▼
-                                ┌──────────────┐  ┌──────────────┐
-                                │ nokia-netops │  │   ChromaDB   │
-                                │   (skill)    │  │              │
-                                │              │  │ nokia_docs   │
-                                │ • SR Linux   │  │ collection   │
-                                │   syntax     │  │              │
-                                │ • SR OS      │  │ Nokia PDFs   │
-                                │   syntax     │  │ Nokia HTML   │
-                                │ • Clab       │  │ Clab docs    │
-                                │   templates  │  │              │
-                                └──────┬───────┘  └──────────────┘
-                                       │
-                                       ▼
-                                ┌──────────────┐
-                                │   Output     │
-                                │              │
-                                │ • router1.cfg│
-                                │ • router2.cfg│
-                                │ • ...        │
-                                │ • topology   │
-                                │   .clab.yml  │
-                                └──────────────┘
+┌──────────────┐       ┌──────────────┐       ┌────────────────────┐
+│ Azure AI     │ HTTP  │  OpenCode    │ route │ nokia-netops-agent │
+│ Foundry /    │──────>│  Serve API   │──────>│                    │
+│ Glean / User │<──────│  :4096       │<──────│ Query ChromaDB     │
+└──────────────┘       └──────┬───────┘       └─────────┬──────────┘
+                              │                         │
+                              │                         ▼
+                              │                  ┌──────────────┐
+                              │                  │   Output     │
+                              │                  │ • configs    │
+                              │                  │ • .clab.yml  │
+                              │                  └──────┬───────┘
+                              │                         │
+                    ┌─────────┴─────────┐               │
+                    ▼                   ▼               ▼
+          ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+          │ dtaas-deploy     │  │ test-writer      │  │   ChromaDB       │
+          │ agent            │  │ agent            │  │                  │
+          │                  │  │                  │  │ nokia_docs       │
+          │ POST /labs       │  │ POST /tests      │  │ collection       │
+          │ → deploy lab     │  │ → run tests      │  │                  │
+          └────────┬─────────┘  └────────┬─────────┘  └──────────────────┘
+                   │                     │
+                   ▼                     ▼
+          ┌──────────────────┐  ┌──────────────────┐
+          │ DTaaS API        │  │ Test Runner API   │
+          │ 10.0.0.12:8080   │  │ 10.0.0.12:8081   │
+          │                  │  │                   │
+          │ Running lab      │  │ PASS / FAIL       │
+          │ + node IPs       │  │ report            │
+          └──────────────────┘  └──────────────────┘
 </pre>
   </div>
 </section>
@@ -547,42 +686,96 @@ curl -X POST http://localhost:4096/session/ses_abc123/message \
   <table style="font-size:0.56em;">
     <thead><tr><th>#</th><th>What Happens</th><th>Layer</th></tr></thead>
     <tbody>
-      <tr class="fragment"><td>1</td><td>User/n8n sends HTTP POST to OpenCode</td><td><span class="tag tag-serve">SERVE</span></td></tr>
+      <tr class="fragment"><td>1</td><td>Azure AI Foundry / Glean / User sends HTTP POST</td><td><span class="tag tag-serve">SERVE</span></td></tr>
       <tr class="fragment"><td>2</td><td>OpenCode routes to <code>nokia-netops-agent</code></td><td><span class="tag tag-serve">SERVE</span></td></tr>
       <tr class="fragment"><td>3</td><td>Agent loads <code>nokia-netops</code> skill</td><td><span class="tag tag-skill">SKILL</span></td></tr>
       <tr class="fragment"><td>4</td><td>Queries ChromaDB for config syntax &amp; examples</td><td><span class="tag tag-data">DATA</span></td></tr>
       <tr class="fragment"><td>5</td><td>Generates per-device configs (correct CLI syntax)</td><td><span class="tag tag-skill">SKILL</span></td></tr>
       <tr class="fragment"><td>6</td><td>Generates Containerlab topology YAML</td><td><span class="tag tag-skill">SKILL</span></td></tr>
-      <tr class="fragment"><td>7</td><td>Writes all files + summary</td><td><span class="tag tag-serve">SERVE</span></td></tr>
+      <tr class="fragment"><td>7</td><td>DTaaS agent deploys lab via API (10.0.0.12)</td><td><span class="tag tag-dtaas">DTAAS</span></td></tr>
+      <tr class="fragment"><td>8</td><td>Test writer generates + runs validation tests</td><td><span class="tag tag-test">TEST</span></td></tr>
+      <tr class="fragment"><td>9</td><td>Returns configs, lab status + test results</td><td><span class="tag tag-serve">SERVE</span></td></tr>
     </tbody>
   </table>
 </section>
 
-<!-- ═══════════ N8N INTEGRATION ═══════════ -->
+<!-- ═══════════ AZURE AI FOUNDRY ═══════════ -->
 <section>
   <section>
-    <h2>n8n Integration</h2>
+    <h2>Azure AI Foundry Integration</h2>
+    <p style="font-size:0.7em; color:#8b949e;">Microsoft's agent platform — 1,400+ connectors, MCP, A2A support</p>
     <div class="flow-diagram">
 <pre style="margin:0;">
-┌───────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────┐
-│  Webhook  │───>│   Create     │───>│   Send to   │───>│  Return  │
-│  Trigger  │    │   Session    │    │   Agent     │    │ Response │
-│           │    │              │    │             │    │          │
-│ POST:     │    │ POST         │    │ POST        │    │ configs  │
-│  agent    │    │ /session     │    │ /message    │    │ topology │
-│  prompt   │    │              │    │             │    │          │
-└───────────┘    └──────────────┘    └─────────────┘    └──────────┘
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Azure AI        │     │  OpenCode        │     │  Nokia NetOps    │
+│  Foundry         │────>│  Serve API       │────>│  Agent           │
+│                  │     │  :4096           │     │                  │
+│ • Agent Service  │     │                  │     │ • Query ChromaDB │
+│ • Logic Apps     │<────│                  │<────│ • Gen configs    │
+│ • MCP gateway    │     │                  │     │ • Clab topology  │
+└──────────────────┘     └──────────────────┘     └──────────────────┘
 </pre>
     </div>
-    <pre class="fragment"><code class="language-bash" data-trim>
-# Trigger from anywhere
-curl -X POST https://your-n8n.com/webhook/agent-task \
-  -H "Content-Type: application/json" \
-  -d '{
-    "agent": "nokia-netops-agent",
-    "prompt": "Configure 3 SR Linux routers with OSPF area 0"
-  }'
+    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
+      Foundry agents call OpenCode via HTTP or MCP &bull; Deploy to Teams / M365 Copilot with one click
+    </p>
+  </section>
+  <section>
+    <h3>How Foundry Connects</h3>
+    <div style="text-align:left; max-width:700px; margin:0 auto; font-size:0.72em;">
+      <ul>
+        <li class="fragment"><strong>OpenAPI import:</strong> Import <code>specs/opencode-api.json</code> as a Foundry tool — agents call our endpoints natively</li>
+        <li class="fragment"><strong>MCP server:</strong> Register OpenCode as an MCP tool provider — Foundry agents discover skills automatically</li>
+        <li class="fragment"><strong>A2A protocol:</strong> Publish an Agent Card — Foundry's multi-agent orchestrator delegates tasks via A2A</li>
+        <li class="fragment"><strong>Logic Apps:</strong> HTTP connector calls <code>POST /session/{id}/message</code> as a workflow step</li>
+      </ul>
+    </div>
+  </section>
+</section>
+
+<!-- ═══════════ GLEAN ═══════════ -->
+<section>
+  <section>
+    <h2>Glean Integration</h2>
+    <p style="font-size:0.7em; color:#8b949e;">Enterprise AI search + agents — grounded in company knowledge</p>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+┌──────────────────┐     ┌──────────────────┐     ┌──────────────────┐
+│  Glean           │     │  OpenCode        │     │  Nokia NetOps    │
+│                  │────>│  Serve API       │────>│  Agent           │
+│ • Agent API      │     │  :4096           │     │                  │
+│ • Search API     │     │                  │     │ • Query ChromaDB │
+│ • Chat API       │<────│                  │<────│ • Gen configs    │
+│ • 100+ connectors│     │                  │     │ • Clab topology  │
+└──────────────────┘     └──────────────────┘     └──────────────────┘
+</pre>
+    </div>
+  </section>
+  <section>
+    <h3>Glean Agent Calling OpenCode</h3>
+    <pre><code class="language-python" data-trim>
+from glean.api_client import Glean
+
+# Glean agent with custom action pointing to OpenCode
+with Glean(api_token="TOKEN", instance="company") as glean:
+
+    # Option 1: Glean agent invokes OpenCode as a tool
+    res = glean.client.agents.create_and_wait_run(
+        agent_id="nokia-netops",
+        input={"query": "Configure 5 SROS routers with eBGP"}
+    )
+
+    # Option 2: Custom OpenAPI action in Glean
+    # Import opencode-api.json as a Glean Action
+    # Glean agents call POST /session/{id}/message natively
+
+    # Option 3: Glean search feeds context to OpenCode
+    search = glean.client.search.search(query="Nokia BGP policy")
+    # → Pass search results as context to the Nokia agent
     </code></pre>
+    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
+      Glean provides enterprise context &bull; OpenCode provides network expertise
+    </p>
   </section>
 </section>
 
@@ -661,137 +854,186 @@ curl -X POST https://your-n8n.com/webhook/agent-task \
 <!-- ═══════════ MULTI-AGENT ═══════════ -->
 <section>
   <h2>Multi-Agent Scenario</h2>
-  <div class="flow-diagram" style="font-size:0.48em;">
+  <div class="flow-diagram" style="font-size:0.42em;">
 <pre style="margin:0;">
-                    ┌─────────────────┐
-                    │  Orchestrator   │
-                    │  (n8n / agent)  │
-                    └───┬─────────┬───┘
-                        │         │
-              ┌─────────┘         └──────────┐
-              ▼                              ▼
-  ┌───────────────────┐          ┌───────────────────┐
-  │  Nokia NetOps     │          │   OpenAPI Agent   │
-  │  Agent            │          │                   │
-  │                   │          │  → Petstore API   │
-  │  → Query ChromaDB │          │  → GitHub API     │
-  │  → Generate configs│          │  → Jira API       │
-  │  → Clab topology  │          │  → Any API w/spec │
-  └───────────────────┘          └───────────────────┘
-         │                              │
-         ▼                              ▼
-  ┌──────────────┐               ┌──────────────┐
-  │ 5x router    │               │ API responses│
-  │ configs +    │               │              │
-  │ topology.yml │               │              │
-  └──────────────┘               └──────────────┘
+                         ┌─────────────────┐
+                         │  Orchestrator   │
+                         │(Foundry / Glean)│
+                         └──┬──┬──┬──┬────┘
+                  ┌─────────┘  │  │  └──────────┐
+                  ▼            │  │             ▼
+     ┌───────────────────┐     │  │    ┌───────────────────┐
+     │  Nokia NetOps     │     │  │    │   OpenAPI Agent   │
+     │  Agent            │     │  │    │                   │
+     │  → Query ChromaDB │     │  │    │  → Jira API       │
+     │  → Generate configs│     │  │    │  → GitHub API     │
+     │  → Clab topology  │     │  │    │  → Any API w/spec │
+     └────────┬──────────┘     │  │    └───────────────────┘
+              │          ┌─────┘  └─────┐
+              ▼          ▼              ▼
+     ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+     │ 5x configs + │  │ DTaaS Deploy │  │ Test Writer  │
+     │ topology.yml │  │ Agent        │  │ Agent        │
+     └──────┬───────┘  │              │  │              │
+            │          │ → Deploy lab │  │ → Gen tests  │
+            └─────────>│ → Node IPs  │  │ → Run suite  │
+                       └──────┬───────┘  └──────┬───────┘
+                              │                 │
+                              ▼                 ▼
+                       ┌──────────────┐  ┌──────────────┐
+                       │ Running Lab  │  │ Test Report  │
+                       │ on DTaaS     │  │ PASS / FAIL  │
+                       └──────────────┘  └──────────────┘
 
-  "Generate a 5-router BGP lab, then create a
-   Jira ticket with the topology diagram"
+  "Generate 5-router BGP lab, deploy it, test everything,
+   then create a Jira ticket with results"
 </pre>
   </div>
 </section>
 
-<!-- ═══════════ OLLAMA INTEGRATION ═══════════ -->
+<!-- ═══════════ LLM CONNECTION ═══════════ -->
 <section>
   <section>
-    <h2>Ollama Integration</h2>
-    <p style="font-size:0.7em; color:#8b949e;">Self-hosted LLM at <code>10.0.0.224:11434</code> — no cloud API keys needed</p>
+    <h2>How LLM Connection Works</h2>
+    <p style="font-size:0.7em; color:#8b949e;">OpenCode is provider-agnostic — plug in any LLM backend</p>
+    <div class="flow-diagram">
+<pre style="margin:0;">
+┌──────────────────┐
+│  OpenCode Serve  │
+│  + Skills        │
+│  + ChromaDB      │
+└────────┬─────────┘
+         │  provider config
+         │  in opencode.json
+         │
+    ┌────┴────────────────────────────────┐
+    │              │                      │
+    ▼              ▼                      ▼
+┌─────────┐  ┌──────────┐  ┌───────────────────┐
+│ Cloud   │  │ Self-    │  │ Azure OpenAI      │
+│ APIs    │  │ Hosted   │  │ (via Foundry)     │
+│         │  │          │  │                   │
+│ Anthropic│  │ Ollama   │  │ GPT-4o / GPT-5   │
+│ OpenAI  │  │ llama.cpp│  │ Enterprise-grade  │
+│ Google  │  │ vLLM     │  │ data compliance   │
+└─────────┘  └──────────┘  └───────────────────┘
+</pre>
+    </div>
+  </section>
+  <section>
+    <h3>Provider Configuration</h3>
+    <div class="small-code">
     <pre><code class="language-json" data-trim>
-{
-  "provider": {
-    "ollama": {
+// Cloud provider (API key)
+{ "provider": { "anthropic": {} } }                // ANTHROPIC_API_KEY env var
+
+// Self-hosted (OpenAI-compatible endpoint)
+{ "provider": {
+    "my-llm": {
       "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama",
-      "options": {
-        "baseURL": "http://10.0.0.224:11434/v1"
-      },
-      "models": {
-        "qwen2.5-coder:14b": { "name": "Qwen 2.5 Coder 14B" },
-        "qwen3.5:9b":        { "name": "Qwen 3.5 9B" },
-        "qwen3:8b":          { "name": "Qwen 3 8B" },
-        "llama3.1:8b":       { "name": "Llama 3.1 8B" }
-      }
+      "options": { "baseURL": "http://llm-host:11434/v1" },
+      "models": { "model-name": { "name": "Display Name" } }
+    }
+  }
+}
+
+// Azure OpenAI
+{ "provider": {
+    "azure": {
+      "npm": "@ai-sdk/azure",
+      "options": { "resourceName": "my-resource" },
+      "models": { "gpt-4o": { "name": "GPT-4o" } }
     }
   }
 }
     </code></pre>
+    </div>
+    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
+      Each agent can use a different provider/model &bull; Mix cloud + self-hosted freely
+    </p>
   </section>
   <section>
-    <h3>Available Models</h3>
-    <table>
-      <thead><tr><th>Model</th><th>Size</th><th>Best For</th></tr></thead>
-      <tbody>
-        <tr><td><code>qwen2.5-coder:14b</code></td><td>9 GB</td><td>Config generation (default)</td></tr>
-        <tr><td><code>qwen3.5:9b</code></td><td>6.6 GB</td><td>General + reasoning</td></tr>
-        <tr><td><code>qwen3:8b</code></td><td>5.2 GB</td><td>Fast general tasks</td></tr>
-        <tr><td><code>qwen3-vl:8b</code></td><td>6.1 GB</td><td>Vision + topology diagrams</td></tr>
-        <tr><td><code>qwen3-vl:4b</code></td><td>3.3 GB</td><td>Lightweight vision</td></tr>
-        <tr><td><code>qwen-8b-32k:latest</code></td><td>5.2 GB</td><td>Large context (32K)</td></tr>
-        <tr><td><code>llama3.1:8b</code></td><td>4.9 GB</td><td>General purpose</td></tr>
-      </tbody>
-    </table>
-    <p class="fragment" style="font-size:0.65em; color:#8b949e;">
-      Both agents default to <code>ollama/qwen2.5-coder:14b</code> — best for CLI syntax generation
-    </p>
+    <h3>Agent ↔ LLM Binding</h3>
+    <pre><code class="language-json" data-trim>
+{
+  "agent": {
+    "nokia-netops-agent": {
+      "model": "ollama/qwen2.5-coder:14b"
+      // or: "anthropic/claude-sonnet-4-20250514"
+      // or: "azure/gpt-4o"
+    },
+    "api-agent": {
+      "model": "anthropic/claude-sonnet-4-20250514"
+    }
+  }
+}
+    </code></pre>
+    <div class="highlight-box fragment" style="font-size:0.65em;">
+      The <strong>skill stays the same</strong> regardless of which LLM runs it.<br>
+      Skills = domain knowledge &bull; LLM = reasoning engine &bull; Swap freely.
+    </div>
   </section>
 </section>
 
-<!-- ═══════════ DOCKER DEPLOYMENT ═══════════ -->
+<!-- ═══════════ DEPLOYMENT ═══════════ -->
 <section>
   <section>
-    <h2>Docker Deployment</h2>
-    <pre><code class="language-yaml" data-trim>
-# docker-compose.yml
-services:
-  demo:                          # Presentation
-    build: ./demo
-    ports: ["8082:80"]
-
-  opencode:                      # Agent API
-    build: .
-    ports: ["4096:4096"]
-    extra_hosts:
-      - "ollama-host:10.0.0.224" # Ollama server
-    volumes:
-      - chromadb-data:/app/data/chromadb
-      - ./output:/app/output
-    </code></pre>
-    <pre class="fragment"><code class="language-bash" data-trim>
-# Start everything
-docker compose up -d
-
-# Presentation → http://localhost:8082
-# Agent API    → http://localhost:4096
-# Ollama       → http://10.0.0.224:11434 (external)
-    </code></pre>
+    <h2>Deployment Options</h2>
+    <p style="font-size:0.7em; color:#8b949e;">Containerized — runs anywhere containers run</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; max-width:780px; margin:0 auto; margin-top:20px;">
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#58a6ff;">Azure Container Apps</h3>
+        <p style="font-size:0.55em;">Serverless containers — auto-scale to zero, built-in HTTPS, VNET integration. Ideal for dev/staging.</p>
+      </div>
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#3fb950;">Azure Kubernetes (AKS)</h3>
+        <p style="font-size:0.55em;">Full orchestration — multi-replica, persistent volumes for ChromaDB, network policies. Ideal for production.</p>
+      </div>
+      <div class="highlight-box fragment" style="padding:14px; text-align:left;">
+        <h3 style="font-size:0.75em; color:#ffa657;">Docker Compose</h3>
+        <p style="font-size:0.55em;">Single-host — quick local dev, CI/CD testing. Run <code>docker compose up</code> and go.</p>
+      </div>
+    </div>
   </section>
   <section>
-    <h3>Infrastructure</h3>
-    <div class="flow-diagram">
+    <h3>Production Architecture</h3>
+    <div class="flow-diagram" style="font-size:0.44em;">
 <pre style="margin:0;">
-┌──────────────────────────────────────────────────┐
-│                 Docker Host                       │
-│                                                   │
-│  ┌─────────────┐     ┌──────────────────────┐    │
-│  │ skills-demo │     │  skills-opencode     │    │
-│  │  (nginx)    │     │  (opencode serve)    │    │
-│  │  :8082      │     │  :4096               │    │
-│  └─────────────┘     └──────────┬───────────┘    │
-│                                  │                │
-└──────────────────────────────────┼────────────────┘
-                                   │ HTTP
-                                   ▼
-                        ┌──────────────────┐
-                        │  10.0.0.224      │
-                        │  Ollama          │
-                        │  :11434          │
-                        │                  │
-                        │ qwen2.5-coder:14b│
-                        │ qwen3.5:9b       │
-                        │ llama3.1:8b      │
-                        └──────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                    Azure (or any cloud)                          │
+│                                                                  │
+│  ┌──────────────┐    ┌────────────────────┐    ┌─────────────┐  │
+│  │ Azure AI     │    │  Container Apps    │    │ ChromaDB    │  │
+│  │ Foundry /    │───>│  or AKS Pod       │───>│ (persistent │  │
+│  │ Glean        │    │                    │    │  volume)    │  │
+│  └──────────────┘    │  opencode serve    │    └─────────────┘  │
+│                      │  :4096             │                      │
+│  ┌──────────────┐    │                    │    ┌─────────────┐  │
+│  │ Users /      │───>│  4 agents          │───>│ DTaaS API   │  │
+│  │ OpenCode TUI │    │  4 skills          │    │ 10.0.0.12   │  │
+│  └──────────────┘    └─────────┬──────────┘    └─────────────┘  │
+│                                │                                 │
+│                                │ LLM Provider                    │
+│                     ┌──────────┴──────────────┐                  │
+│                     ▼                         ▼                  │
+│            ┌──────────────┐         ┌──────────────┐            │
+│            │ Azure OpenAI │         │ Self-hosted  │            │
+│            │ (managed)    │         │ (Ollama/vLLM)│            │
+│            └──────────────┘         └──────────────┘            │
+└─────────────────────────────────────────────────────────────────┘
 </pre>
+    </div>
+  </section>
+  <section>
+    <h3>Why Container Apps / AKS?</h3>
+    <div style="text-align:left; max-width:720px; margin:0 auto; font-size:0.72em;">
+      <ul>
+        <li class="fragment"><strong>Scale to zero</strong> — Container Apps only charges when agents are processing requests</li>
+        <li class="fragment"><strong>VNET integration</strong> — OpenCode reaches DTaaS API (10.0.0.12) and LLM backends over private network</li>
+        <li class="fragment"><strong>Managed identity</strong> — no API keys in env vars; Azure OpenAI auth via Entra ID</li>
+        <li class="fragment"><strong>Ingress + TLS</strong> — built-in HTTPS endpoint for Foundry / Glean to call</li>
+        <li class="fragment"><strong>AKS for production</strong> — persistent volumes for ChromaDB, network policies, multi-replica for HA</li>
+      </ul>
     </div>
   </section>
 </section>
@@ -814,7 +1056,7 @@ ln -s ~/poc/skills/.opencode/agents/* ~/.config/opencode/agents/
   </code></pre>
   <div class="highlight-box fragment" style="font-size:0.65em;">
     <code>--attach</code> is the cleanest — your shell talks to the container,<br>
-    which already has skills, ChromaDB, and Ollama configured. No duplication.
+    which already has skills, ChromaDB, and LLM provider configured. No duplication.
   </div>
 </section>
 
@@ -829,16 +1071,20 @@ docker compose up -d
 # Step 2: Ingest Nokia docs into ChromaDB
 docker exec skills-opencode python3 ingest/ingest.py
 
-# Step 3: Generate configs via CLI
+# Step 3: Generate configs
 ./scripts/call-agent.sh nokia-netops-agent \
   "Configure 5 SROS routers with eBGP full mesh, generate containerlab topology"
 
-# Step 4: Or connect your local shell
-opencode --attach http://localhost:4096
+# Step 4: Deploy the lab via DTaaS
+./scripts/call-agent.sh dtaas-deploy-agent \
+  "Deploy the generated topology from output/"
 
-# Step 5: Deploy the lab
-cd output/
-sudo containerlab deploy -t topology.clab.yml
+# Step 5: Run tests against the lab
+./scripts/call-agent.sh test-writer-agent \
+  "Test all BGP sessions and connectivity for the deployed lab"
+
+# Or connect interactively
+opencode --attach http://localhost:4096
   </code></pre>
   </div>
 </section>
@@ -889,11 +1135,14 @@ python3 ingest/ingest.py
         <li>ChromaDB ingestion pipeline</li>
         <li>SR Linux + SR OS config templates</li>
         <li>Containerlab topology generation</li>
+        <li>DTaaS lab deployment skill</li>
+        <li>Network test writer skill</li>
         <li>HTTP serve integration</li>
-        <li>Ollama integration (10.0.0.224)</li>
+        <li>Multi-provider LLM support</li>
         <li>Docker compose deployment</li>
         <li>OpenCode API spec (86 endpoints)</li>
-        <li>n8n workflow + CLI scripts</li>
+        <li>Azure AI Foundry + Glean integration</li>
+        <li>CLI scripts</li>
       </ul>
     </div>
     <div class="highlight-box">
@@ -923,7 +1172,9 @@ python3 ingest/ingest.py
     <a href="https://opencode.ai/docs/server/">OpenCode Server</a> &bull;
     <a href="https://a2a-protocol.org/latest/specification/">A2A Protocol</a> &bull;
     <a href="https://containerlab.dev/">Containerlab</a> &bull;
-    <a href="https://docs.trychroma.com/">ChromaDB</a>
+    <a href="https://docs.trychroma.com/">ChromaDB</a><br>
+    <a href="https://ai.azure.com/">Azure AI Foundry</a> &bull;
+    <a href="https://developers.glean.com/">Glean Developer Docs</a>
   </div>
 </section>
 

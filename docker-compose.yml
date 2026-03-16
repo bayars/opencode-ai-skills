@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: skills-demo
     ports:
-      - "8080:80"
+      - "8082:80"
     restart: unless-stopped
 
   # ── OpenCode Serve (Agent Skills API) ─────────────────
